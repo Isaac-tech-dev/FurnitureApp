@@ -7,9 +7,13 @@ import {
   MaterialCommunityIcons,
   SimpleLineIcons,
 } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/core";
 
 const ProductDetail = () => {
+  const route = useRoute();
+  const { item } = route.params;
+  //console.log(item)
   const navigation = useNavigation();
   const [count, setCount] = useState(1);
   const increment = () => {
@@ -32,14 +36,14 @@ const ProductDetail = () => {
       </View>
       <Image
         source={{
-          uri: "https://d326fntlu7tb1e.cloudfront.net/uploads/cb2e64a8-ad4c-4d45-b58b-b0c7e11b6bb4-fn1.jpg",
+          uri: item.imageUrl,
         }}
         style={styles.img}
       />
       <View style={styles.details}>
         <View style={styles.titleRow}>
           <Text style={{ fontFamily: "bold", fontSize: SIZES.large }}>
-            Product
+            {item.title}
           </Text>
           <View
             style={{
@@ -54,7 +58,7 @@ const ProductDetail = () => {
                 fontSize: SIZES.large,
               }}
             >
-              $45.99
+              {item.price}
             </Text>
           </View>
         </View>
@@ -83,13 +87,7 @@ const ProductDetail = () => {
         <View style={styles.descriptionWrapper}>
           <Text style={styles.description}>Description</Text>
           <Text style={styles.descriptionText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            {item.description}
           </Text>
         </View>
 
@@ -98,7 +96,7 @@ const ProductDetail = () => {
           <View style={styles.location}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Ionicons name="location-outline" size={20} />
-              <Text> Yaba </Text>
+              <Text> {item.productLocation} </Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <MaterialCommunityIcons name="truck-delivery-outline" size={20} />
@@ -210,9 +208,9 @@ const styles = StyleSheet.create({
     width: SIZES.width,
   },
   cartBTN: {
-    width: SIZES.width*0.7,
+    width: SIZES.width * 0.7,
     backgroundColor: COLORS.black,
-    padding: SIZES.small/2,
+    padding: SIZES.small / 2,
     borderRadius: SIZES.large,
     marginLeft: 12,
   },

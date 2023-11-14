@@ -2,13 +2,15 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const Headings = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>New Arrivals</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("ProductList")}>
           <Ionicons name="ios-grid" size={24} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
@@ -31,6 +33,6 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontFamily: "semibold",
-    fontSize: SIZES.xLarge -2,
+    fontSize: SIZES.xLarge - 2,
   },
 });

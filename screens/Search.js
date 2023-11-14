@@ -4,13 +4,36 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import axios from "axios";
+import { FlatList } from "react-native-gesture-handler";
 
 const Search = () => {
+  const [searchKey, setSearchKey] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  //http://localhost:3000/api/products/search/${searchKey}
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/products/search/${searchKey}`
+      );
+      setSearchResults(response.data);
+      console.log("=============================");
+      console.log(response.data);
+      console.log("=============================");
+      //response.data
+    } catch (error) {
+      console.log("Failed to get Products", error);
+    }
+  };
+
+  //console.log(searchKey)
   return (
     <SafeAreaView>
       <View style={styles.searchContainer}>
@@ -24,17 +47,36 @@ const Search = () => {
         <View style={styles.searchWrapper}>
           <TextInput
             placeholder="What are you looking for"
-            value=""
-            onPressIn={() => {}}
+            value={searchKey}
+            onChangeText={setSearchKey}
             style={styles.searchInput}
           />
         </View>
         <View>
-          <TouchableOpacity style={styles.searchBTN}>
+          <TouchableOpacity
+            style={styles.searchBTN}
+            onPress={() => handleSearch()}
+          >
             <Feather name="search" size={24} color={COLORS.offwhite} />
           </TouchableOpacity>
         </View>
       </View>
+      {searchResults.length === 0 ? (
+        <View style={{ flex: 1 }}>
+          <Image
+            source={require("../assets/images/Pose23.png")}
+            style={styles.searchImg}
+          />
+        </View>
+      ) : (
+        <FlatList
+          data={searchResults}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => {
+            (<Text>{item.title}</Text>);
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -75,5 +117,11 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.medium,
     alignItems: "center",
     justifyContent: "center",
+  },
+  searchImg: {
+    resizeMode: "contain",
+    width: SIZES.width - 80,
+    height: SIZES.height - 300,
+    opacity: 0.9,
   },
 });
