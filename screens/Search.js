@@ -12,21 +12,23 @@ import { COLORS, SIZES } from "../constants";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
+import SearchTile from "../component/product/SearchTile";
 
 const Search = () => {
   const [searchKey, setSearchKey] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   //http://localhost:3000/api/products/search/${searchKey}
+  //console.log(searchResults)
   const handleSearch = async () => {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/products/search/${searchKey}`
       );
       setSearchResults(response.data);
-      console.log("=============================");
-      console.log(response.data);
-      console.log("=============================");
+      // console.log("=============================");
+      // console.log("Results" , response.data);
+      // console.log("=============================");
       //response.data
     } catch (error) {
       console.log("Failed to get Products", error);
@@ -72,9 +74,8 @@ const Search = () => {
         <FlatList
           data={searchResults}
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => {
-            (<Text>{item.title}</Text>);
-          }}
+          renderItem={({ item }) => <SearchTile item={item} />}
+          style={{ marginHorizontal: 12 }}
         />
       )}
     </SafeAreaView>

@@ -4,12 +4,14 @@ import Headings from "./home/Headings";
 import ProductRow from "./product/ProductRow";
 import ProductCardView from "./product/ProductCardView";
 import ProductList from "./product/ProductList";
+import SearchTile from "./product/SearchTile";
 
 export {
-    Welcome,
-    Carousel,
-    Headings,
-    ProductRow,
-    ProductCardView,
-    ProductList
-}
+  Welcome,
+  Carousel,
+  Headings,
+  ProductRow,
+  ProductCardView,
+  ProductList,
+  SearchTile,
+};

@@ -58,7 +58,7 @@ const ProductDetail = () => {
                 fontSize: SIZES.large,
               }}
             >
-              {item.price}
+              ${item.price}
             </Text>
           </View>
         </View>
